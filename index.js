@@ -1,6 +1,11 @@
 const redux = require('redux');
+const reduxLogger = require('redux-logger')
 const legacy_createStore = redux.legacy_createStore
 const combineReducers = redux.combineReducers
+const applyMiddleware = redux.applyMiddleware
+const logger = reduxLogger.createLogger()
+
+
 
 //Action describes the changes in the state of the application
 const BUY_CAKE = 'Buy Cake';
@@ -60,8 +65,8 @@ const rootReducer = combineReducers({
   cake: cakeReducer,
   iceCream: iceCreamReducer
 })  
-const store = legacy_createStore(rootReducer)  //store the state of the application
-console.log("Initial state", store.getState()) //allows access to the state
+const store = legacy_createStore(rootReducer, applyMiddleware(logger))  //store the state of the application
+// console.log("Initial state", store.getState()) //allows access to the state
 const unsubscribe = store.subscribe(() => console.log('Updated State', store.getState())) //registers listeners via subscribe
 store.dispatch(buyCake()) //allows state to be updated
 store.dispatch(buyCake())
